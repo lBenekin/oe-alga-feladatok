@@ -18,7 +18,7 @@ namespace OE.ALGA.Paradigmak
     public class FeladatTarolo<T> : IEnumerable<T> where T : IVegrehajthato
     {
         protected T[] tarolo;
-        int n = 0; //number of elements
+        protected int n = 0; //number of elements
 
         public FeladatTarolo(int meret)
         {
@@ -38,7 +38,7 @@ namespace OE.ALGA.Paradigmak
             }
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
         {
             FeladatTaroloBejaro<T> bejaro = new FeladatTaroloBejaro<T>(tarolo, n);
             return bejaro;
