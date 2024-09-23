@@ -4,13 +4,7 @@ namespace OE.ALGA.Sandbox
     {
         static void Main()
         {
-            List<int> a = new List<int> { 1, 2, 3, 13, 27, 6, 7, 8, 9, 10 };
-            IEnumerator<int> enumerator = a.GetEnumerator();
-
-            while (enumerator.MoveNext())
-            {
-
-            }
+            Console.WriteLine(0%4);
         }
     }
 }
