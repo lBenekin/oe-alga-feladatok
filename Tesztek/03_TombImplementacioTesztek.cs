@@ -203,6 +203,7 @@ namespace OE.ALGA.Tesztek
         public void Beszuras() //F3.
         {
             Lista<int> l = new TombLista<int>();
+            //2 3 5 1 4
             l.Beszur(0, 1);
             l.Beszur(0, 2);
             l.Beszur(1, 3);
@@ -244,20 +245,20 @@ namespace OE.ALGA.Tesztek
             Assert.AreEqual(2, l.Kiolvas(2));
         }
 
-        //[TestMethod]
-        //public void ForeachBejaras() //F4.
-        //{
-        //    TombLista<string> l = new TombLista<string>();
-        //    l.Hozzafuz("a");
-        //    l.Hozzafuz("c");
-        //    l.Hozzafuz("d");
-        //    l.Hozzafuz("b");
-        //    string osszefuzo = "";
-        //    foreach (string x in l)
-        //    {
-        //        osszefuzo += x;
-        //    }
-        //    Assert.AreEqual("acdb", osszefuzo);
-        //}
+        [TestMethod]
+        public void ForeachBejaras() //F4.
+        {
+            TombLista<string> l = new TombLista<string>();
+            l.Hozzafuz("a");
+            l.Hozzafuz("c");
+            l.Hozzafuz("d");
+            l.Hozzafuz("b");
+            string osszefuzo = "";
+            foreach (string x in l)
+            {
+                osszefuzo += x;
+            }
+            Assert.AreEqual("acdb", osszefuzo);
+        }
     }
 }

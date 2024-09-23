@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -116,33 +117,46 @@ namespace OE.ALGA.Adatszerkezetek
         {
             E = new T[n];
         }
-        public int Elemszam => throw new NotImplementedException();
+        public int Elemszam => n;
 
         public void Bejar(Action<T> muvelet)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Beszur(int index, T ertek)
         {
-            
+            //n: 0 index: 0 ertek: 1
             if (index > E.Length || index<0)
             {
                 throw new HibasIndexKivetel();
             }
-            if (n >= E.Length)
+            if (++n >= E.Length)
             {
                 T[] temp = new T[E.Length * 2];
-                E = temp;
-                //l:5 n:5 index: 3
-                for (int i = 0; i < n-index; i++)
+                for (int i = 0; i < E.Length; i++)
                 {
-                    T tmp = E[index + (n-index-1)];
-                    E[index+i+1] = E[index+i];
+                    temp[i] = E[i];
                 }
+                E = temp;
             }
+            for (int i = n-1; i > index; i--)
+            {
+                E[i] = E[i - 1];
+            }
+            /*for (int i = 0; i < n - index; i++)
+            {
+                E[n-i] = E[n - i - 1];
+            }*/
+
             E[index] = ertek;
-            
+            //n++;
+
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
 
         public void Hozzafuz(T ertek)
@@ -152,17 +166,40 @@ namespace OE.ALGA.Adatszerkezetek
 
         public T Kiolvas(int index)
         {
+            if (index > E.Length || index < 0)
+            {
+                throw new HibasIndexKivetel();
+            }
             return E[index];
         }
 
         public void Modosit(int index, T ertek)
         {
+            if (index > E.Length || index < 0)
+            {
+                throw new HibasIndexKivetel();
+            }
             E[index] = ertek;
         }
 
         public void Torol(T ertek)
         {
-            throw new NotImplementedException();
+            int db = 0;
+            int count = 0;
+            for (int i = 0; i < n; i++)
+            {
+                E[i - db] = E[i];
+                if (E[i].Equals(ertek))
+                {
+                    db++;
+                    count++;
+                }
+                else
+                {
+                    db = 0;
+                }
+            }
+            n -=count;
         }
     }
 }
