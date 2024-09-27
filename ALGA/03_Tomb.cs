@@ -136,9 +136,9 @@ namespace OE.ALGA.Adatszerkezetek
 
         public void Bejar(Action<T> muvelet)
         {
-            foreach (T item in E)
+            for (int i = 0; i < n; i++)
             {
-                muvelet?.Invoke(item);
+                muvelet?.Invoke(E[i]);
             }
         }
 
@@ -170,7 +170,8 @@ namespace OE.ALGA.Adatszerkezetek
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            TombListaBejaro<T> bejaro = new TombListaBejaro<T>(E, n);
+            return bejaro;
         }
 
         public void Hozzafuz(T ertek)
@@ -199,17 +200,15 @@ namespace OE.ALGA.Adatszerkezetek
         public void Torol(T ertek)
         {
             int db = 0;
-            int count = 0;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < E.Length; i++)
             {
                 E[i - db] = E[i];
                 if (E[i].Equals(ertek))
                 {
                     db++;
-                    count++;
                 }
             }
-            n -=count;
+            n -=db;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -238,11 +237,11 @@ namespace OE.ALGA.Adatszerkezetek
             this.n = n;
         }
 
-        object IEnumerator.Current => throw new NotImplementedException();
+        object IEnumerator.Current => Current;
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+           
         }
 
         public bool MoveNext()

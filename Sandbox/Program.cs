@@ -9,16 +9,12 @@ namespace OE.ALGA.Sandbox
         {
             hozzafuz(1);
             hozzafuz(3);
-            hozzafuz(3);
-            hozzafuz(3);
-            hozzafuz(3);
             hozzafuz(12);
             hozzafuz(3);
             hozzafuz(2);
-            hozzafuz(3);
-            hozzafuz(4);
+
             torol(3);
-            beszur(4, 76775);
+            //beszur(4, 76775);
             for (int i = 0; i < E.Length; i++)
             {
                 Console.WriteLine(E[i]);
@@ -58,8 +54,7 @@ namespace OE.ALGA.Sandbox
         public static void torol(int ertek)
         {
             int db = 0;
-            int count = 0;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < E.Length; i++)
             {
                 write(i-db, i);
                 Console.WriteLine();
@@ -67,10 +62,9 @@ namespace OE.ALGA.Sandbox
                 if (E[i].Equals(ertek))
                 {
                     db++;
-                    count++;
                 }
             }
-            n -= count;
+            n -= db;
         }
 
         public static void write(int db, int index)
