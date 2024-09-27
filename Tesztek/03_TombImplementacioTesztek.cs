@@ -248,6 +248,7 @@ namespace OE.ALGA.Tesztek
         [TestMethod]
         public void ForeachBejaras() //F4.
         {
+
             TombLista<string> l = new TombLista<string>();
             l.Hozzafuz("a");
             l.Hozzafuz("c");
