@@ -26,7 +26,7 @@ namespace OE.ALGA.Optimalizalas
         public int OsszSuly(bool[] pakolas)
         {
             int sum = 0;
-            for (int i = 0; i < pakolas.Length; i++)
+            for (int i = 0; i < n; i++)
             {
                 if (pakolas[i])
                 {
@@ -38,7 +38,7 @@ namespace OE.ALGA.Optimalizalas
         public float OsszErtek(bool[] pakolas)
         {
             float sum = 0;
-            for (int i = 0; i < pakolas.Length; i++)
+            for (int i = 0; i < n; i++)
             {
                 if (pakolas[i])
                 {
@@ -50,7 +50,7 @@ namespace OE.ALGA.Optimalizalas
 
         public bool Ervenyes(bool[] pakolas)
         {
-            return OsszSuly(pakolas) <= n;
+            return OsszSuly(pakolas) <= Wmax;
         }
     }
     public class NyersEro<T>
@@ -70,14 +70,18 @@ namespace OE.ALGA.Optimalizalas
 
         public T OptimalisMegoldas()
         {
-            T o = generator(1);
-            for (int i = 1; i < m; i++)
+            T o = default;
+            float max = float.MinValue;
+            for (int i = 1; i <= m; i++)
             {
+                LepesSzam++;
                 T x = generator(i);
-                if (josag(x) >= josag(o))
+                float josagValue = josag(x);
+                if (josagValue > max)
                 {
+                    max = josagValue;
                     o = x;
-                    LepesSzam++;
+                    
                 }
             }
             return o;
@@ -98,7 +102,7 @@ namespace OE.ALGA.Optimalizalas
             bool[] K = new bool[problema.n];
             for (int j = 0; j < problema.n; j++)
             {
-                K[j] = (int)(num / 2^j-1) % 2 == 1;
+                K[j] = (int)(num / Math.Pow(2,j-1)) % 2 == 1;
             }
             return K;
         }
@@ -108,23 +112,15 @@ namespace OE.ALGA.Optimalizalas
         }
         public bool[] OptimalisMegoldas()
         {
-            NyersEro<bool[]> nyersEro = new NyersEro<bool[]>(2^problema.n, Generator, Josag);
+            NyersEro<bool[]> nyersEro = new NyersEro<bool[]>((int)Math.Pow(2, problema.n), Generator, Josag);
             bool[] opt = nyersEro.OptimalisMegoldas();
             LepesSzam = nyersEro.LepesSzam;
             return opt;
         }
         public float OptimalisErtek()
         {
-            bool[] O = Generator(1);
-            for (int i = 2; i < (2 ^ problema.n); i++)
-            {
-                bool[] K = Generator(i);
-                if ((problema.OsszSuly(K) <= problema.Wmax) && (problema.OsszErtek(K) >= problema.OsszErtek(O)))
-                {
-                    O = K;
-                }
-            }
-            return problema.OsszErtek(O);
+            bool[] opt = OptimalisMegoldas();
+            return problema.OsszErtek(opt);
         }
     }
 }
