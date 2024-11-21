@@ -81,7 +81,7 @@ namespace OE.ALGA.Paradigmak
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+
         }
 
         public bool MoveNext()
