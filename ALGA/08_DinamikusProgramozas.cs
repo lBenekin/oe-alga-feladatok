@@ -10,7 +10,7 @@ namespace OE.ALGA.Optimalizalas
     public class DinamikusHatizsakPakolas
     {
         HatizsakProblema problema;
-        public int LepesSzam { get; }
+        public int LepesSzam { get; protected set; }
 
         public DinamikusHatizsakPakolas(HatizsakProblema problem)
         {
@@ -32,6 +32,8 @@ namespace OE.ALGA.Optimalizalas
             {
                 for (int j = 1; j <= problema.Wmax; j++)
                 {
+                    this.LepesSzam++;
+
                     if (j >= problema.w[i - 1])
                     {
                         F[i, j] = Math.Max(F[i - 1, j], (F[i - 1, j - problema.w[i - 1]]) + problema.p[i - 1]);

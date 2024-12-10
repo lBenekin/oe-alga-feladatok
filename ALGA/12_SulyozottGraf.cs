@@ -115,36 +115,111 @@ namespace OE.ALGA.Adatszerkezetek
 
         public bool VezetEl(int honnan, int hova)
         {
-            return M[honnan, hova] != null;
+            return !float.IsNormal(M[honnan,hova]);
         }
     }
 
     public class Utkereses
     {
-        static void Dijkstra<V,E>(SulyozatlanGraf<V,E> g, V start)
+        public static HasitoSzotarTulcsordulasiTerulettel<V,float> Dijkstra<V,E> (SulyozottGraf<V,E> g, V start)
         {
-            /*
+            
             HasitoSzotarTulcsordulasiTerulettel<V, float> L = new HasitoSzotarTulcsordulasiTerulettel<V, float>(g.CsucsokSzama);
             HasitoSzotarTulcsordulasiTerulettel<V, V> P = new HasitoSzotarTulcsordulasiTerulettel<V, V>(g.ElekSzama);
-            KupacPrioritasosSor<V> S = new KupacPrioritasosSor<V>(g.ElekSzama, (x, y) => L.Kiolvas(x).CompareTo(P.Kiolvas(y))>=0);
+            //
+            KupacPrioritasosSor<V> S = new KupacPrioritasosSor<V>(g.ElekSzama, (x, y) => L.Kiolvas(x).CompareTo(L.Kiolvas(y))>=0);
             g.Csucsok.Bejar(x =>
             {
                 L.Beir(x,float.MaxValue);
                 P.Beir(x, default(V));
                 S.Sorba(x);
+
             });
             L.Beir(start, 0);
+            while (!S.Ures)
+            {
+                V u = S.Sorbol();
+                g.Szomszedai(u).Bejar(x =>
+                {
+                    if (L.Kiolvas(u)+g.Suly(u,x) < L.Kiolvas(x))
+                    {
+                        L.Beir(x, L.Kiolvas(u)+g.Suly(u,x));
+                        P.Beir(x, u);
+                    }
+                });
+            }
+            return L;
+        }
+    }
+
+
+    public class FeszitofaKereses
+    {
+        public static Szotar<V,V> Prim<V,E>(SulyozottGraf<V,E> g, V start)
+        {
+            /*HasitoSzotarTulcsordulasiTerulettel<V, V> K = new HasitoSzotarTulcsordulasiTerulettel<V, V>(g.CsucsokSzama);
+            HasitoSzotarTulcsordulasiTerulettel<V, V> P = new HasitoSzotarTulcsordulasiTerulettel<V, V>(g.ElekSzama);
+            KupacPrioritasosSor<V> S = new KupacPrioritasosSor<V>(g.ElekSzama, (x, y) => K.Kiolvas(x).CompareTo(P.Kiolvas(y)) >= 0);
+            g.Csucsok.Bejar(x =>
+            {
+                K.Beir(x, );
+                P.Beir(x, default(V));
+                S.Sorba(x);
+            });
+            K.Beir(start, 0);
+            S.Frissit();
             while (!S.Ures)
             {
                 V u = S.Elso();
                 g.Szomszedai(u).Bejar(x =>
                 {
-                    if (L.Kiolvas(u))
+                    if (K.Kiolvas(u) + g.Suly(u, x) < K.Kiolvas(x))
                     {
-
+                        K.Beir(x, K.Kiolvas(u) + g.Suly(u, x));
+                        S.Frissit();
+                        P.Beir(x, u);
                     }
+                });
+            }
+            return K;*/
+            return new HasitoSzotarTulcsordulasiTerulettel<V,V>(g.ElekSzama);
+        }
+
+        public static Halmaz<E> Kruskal<V,E>(SulyozottGraf<V,E> g) where E : SulyozottGrafEl<V>, IComparable<E>
+        {
+            Halmaz<E> A = new FaHalmaz<E>();
+            Szotar<V, int> halmazok = new HasitoSzotarTulcsordulasiTerulettel<V, int>(g.CsucsokSzama);
+            KupacPrioritasosSor<E> S = new KupacPrioritasosSor<E>(g.ElekSzama, (x, y) => x.CompareTo(y) >= 0);
+            //Halmaz létrehozás
+            int i = 0;
+            g.Csucsok.Bejar(x => { halmazok.Beir(x, i++); });
+
+            g.Elek.Bejar(e =>
+            {
+                S.Sorba(e);
+
+
+            });
+
+            while (!S.Ures)
+            {
+                E minEdge = S.Sorbol();
+                //u Honnan
+                //v Hova
+                if (halmazok.Kiolvas(minEdge.Honnan) != halmazok.Kiolvas(minEdge.Hova))
+                {
+                    A.Beszur(minEdge);
+                    //Halmazösszevonás
+                    g.Csucsok.Bejar(x =>
+                    {
+                        if (halmazok.Kiolvas(x) == halmazok.Kiolvas(minEdge.Honnan))
+                        {
+                            halmazok.Beir(x, halmazok.Kiolvas(minEdge.Hova));
+                        }
+                    });
                 }
-            }*/
+            }
+            return A;
         }
     }
 }
