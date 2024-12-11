@@ -82,6 +82,7 @@ namespace OE.ALGA.Paradigmak
         public void Dispose()
         {
 
+
         }
 
         public bool MoveNext()
